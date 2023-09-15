@@ -3,5 +3,18 @@ version: "3.9"
 services:
   web:
     build: ./FlaskWebApp
+    depends_on:
+      - database
     ports:
         - "5000:5000"
+  
+  database:
+    image: mysql:5.7
+    ports:
+        - "32000:3306"
+    volumes:
+        - ./FlaskWebApp/database:/docker-entrypoint-initdb.d/:ro
+    environment:
+        MYSQL_ROOT_USER: root
+        MYSQL_ROOT_PASSWORD: secret
+        MYSQL_DATABASE: webAppDb
